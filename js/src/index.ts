@@ -218,7 +218,7 @@ What's added by TypeScript compared to JavaScript?
    TypeScript uses JavaScript's existing data types and adds
    additional types and type-related features.
 
-*  Primitive Data Types:
+*  Primitive Data Types (Value Typed):
      number    
      string     
      boolean 
@@ -227,7 +227,7 @@ What's added by TypeScript compared to JavaScript?
      bigint      -> very large integers
      symbol      -> unique values
 
-*  Non-Primitive / Object Types:
+*  Non-Primitive / Object Types (reference Typed):
      object      
      array 
      function 
@@ -244,7 +244,7 @@ What's added by TypeScript compared to JavaScript?
     void           -> Represents functions that do not return a value
     any            -> Represents any type (can hold any value)
     unknown        -> Similar to any, but safer because it must be checked before use
-    Array<number>  -> A collection of values of the same type (number in this case)
+    Array<datatype>  -> A collection of values of the same type 
     tuple          -> A fixed-length array with specific types for each position
     union          -> A type that allows a variable to hold multiple types
     intersection  ->   combines multiple types into one
@@ -384,6 +384,7 @@ let obj2: {
 //? -------------------- Array Type -------------------- 
 // An array stores multiple values.
 
+// let arr1: [] = [10, 20, 30, 40];  Error
 let arr1: number[] = [10, 20, 30, 40];
 
 
@@ -408,7 +409,7 @@ let add: (a: number, b: number) => number =
         return a + b;
     };
 
-
+function fun2(): void { };
 //! __________________________________________________________________________________________________
 
 
@@ -495,9 +496,9 @@ if (typeof y === "string") {
     -> Safer than any.
 ------------------------------------------------- */
 
-//? -------------------- Tuple Type -------------------- 
+//? -------------------- Tuple Type --------------------
 // A tuple has a fixed structure.
-// Each position can have a specific type.
+// A fixed-length array with specific types for each position
 
 let user: [string, number] = ["Asmaa", 21];
 
@@ -551,6 +552,55 @@ answer = "D";
 
 // ! ____________________________________________________________________________________
 
+//? -------------------- Type Alias --------------------
+// `type` gives a custom, reusable name to a type.
+
+type User = {
+    readonly id: number;
+    firstName: string;
+    lastName: string;
+    email?: string;
+    password: string;
+    isAdmin: boolean;
+    getFullName?: (firstName: string, lastName: string) => string;
+};
+
+
+let newUser: User = {
+    id: 5,
+    firstName: "AAAA",
+    lastName: "BBBB",
+    email: "AAAA@gmail.com",
+    password: "123456789",
+    isAdmin: true,
+
+    getFullName: (firstName, lastName) => `${firstName} ${lastName}`
+};
+
+//! Check if the optional function exists because it may not be present in the user object,
+//! which means its value will be `undefined` and calling it directly will cause an error.
+
+if (newUser.getFullName !== undefined) {
+    newUser.getFullName('', '');
+}
+
+
+//? ---------- Readonly Property ----------
+//* readonly prevents a property from being changed
+//* after the object has been created.
+
+// @ts-expect-error
+newUser.id = 10;
+
+
+//? ---------- Optional Property ----------
+//* `?` makes a property optional.
+//* The property does not have to be provided.
+
+console.log(newUser);
+
+
+
 //? -------------------- Intersection Type -------------------- 
 // An intersection combines multiple types into one.
 // The `&` symbol is used.
@@ -579,6 +629,15 @@ let employee: PersonEmployee = {
     department: "IT"
 };
 
+// or 
+
+// let employee: Person & Employee = {
+//     name: "John",
+//     age: 25,
+//     employeeId: 101,
+//     department: "IT"
+// };
+
 //? -------------------- Literal Type -------------------- 
 // A literal type allows only specific values.
 
@@ -599,74 +658,6 @@ moveDirection("left");
 
 // @ts-expect-error
 moveDirection("forward");
-
-
-//? -------------------- Type Alias --------------------
-// `type` gives a custom, reusable name to a type.
-
-type User = {
-    readonly id: number;
-    firstName: string;
-    lastName: string;
-    email?: string;
-    password: string;
-    isAdmin: boolean;
-    getFullName: (
-        firstName: string,
-        lastName: string
-    ) => string;
-};
-
-
-let newUser: User = {
-    id: 5,
-    firstName: "AAAA",
-    lastName: "BBBB",
-    email: "AAAA@gmail.com",
-    password: "123456789",
-    isAdmin: true,
-
-    getFullName: (firstName, lastName) =>
-        `${firstName} ${lastName}`
-};
-
-
-//? ---------- Readonly Property ----------
-//* readonly prevents a property from being changed
-//* after the object has been created.
-
-// @ts-expect-error
-newUser.id = 10;
-
-
-//? ---------- Optional Property ----------
-//* `?` makes a property optional.
-//* The property does not have to be provided.
-
-console.log(newUser);
-
-
-{
-
-    //? -------------------- Optional Property --------------------
-    // `?` after a property name makes the property optional.
-
-    type User = {
-        name: string;
-        age?: number;
-    };
-
-
-    let user1: User = {
-        name: "John"
-    };
-
-
-    let user2: User = {
-        name: "Ali",
-        age: 25
-    };
-}
 
 
 // ! ____________________________________________________________________________________
@@ -772,7 +763,7 @@ let newHuman: Human = {
     let userName: unknown = "asmaa";
 
 
-    //* ---------- Angle Bracket Syntax ----------
+    //* ---------- Angle Bracket Syntax / Generic ----------
     // Not recommended when using JSX.
     // JSX stands for: JavaScript XML  >> JavaScript + XML-like syntax
 
@@ -840,7 +831,7 @@ function greet(name: string = "Guest"): void {
 
 
 greet();
-greet("John");
+greet("Asmaa");
 
 
 
@@ -850,26 +841,19 @@ greet("John");
 // If the parameter is not provided,
 // its value will be undefined.
 
-function greet2(
-    name: string,
-    age?: number
-): void {
+function greet2(name: string, age?: number): void {
     console.log(name, age);
 }
 
-greet2("John");
-greet2("John", 25);
+greet2("Asmaa");
+greet2("Asmaa", 21);
 
 // Example:
 
 let students: object[] = [];
 
 
-function setNewStudent(
-    studentName: string,
-    studentEmail: string,
-    studentPhone?: string
-): void {
+function setNewStudent(studentName: string, studentEmail: string, studentPhone?: string): void {
 
     let newStudent = {
         name: studentName,
@@ -880,17 +864,10 @@ function setNewStudent(
     students.push(newStudent);
 }
 
-setNewStudent(
-    "John Doe",
-    "john@gmail.com",
-    "01152626821"
-);
+setNewStudent("Asmaa", "As@gmail.com", "011111111111");
 
 
-setNewStudent(
-    "Jane Doe",
-    "jane@gmail.com"
-);
+setNewStudent("Asmaa", "As@gmail.com");
 
 // ! ____________________________________________________________________________________
 
@@ -1028,6 +1005,8 @@ Main Topics:
 // !  2. Class & Object
 /* 
 
+* class name preferred capitalize
+
 *  Class:
     - A blueprint / template for creating objects.
     - Defines the properties and methods that objects can have.
@@ -1123,31 +1102,9 @@ student_2.study(); // Aya studying.
 
 *  Important:
     - A TypeScript class can have only ONE constructor.
-    - Constructor overloading is NOT directly supported.
-    - The constructor is called automatically when using `new `.
-
-*/
-
-
-// !    3. Constructor
-
-/*
-
-*  What is a Constructor?
-    - A constructor is a special method inside a class.
-    - It is automatically called when an object is created.
-    - It is mainly used to initialize object properties.
-
-*  Syntax:
-
-      constructor(parameters) {
-          initialization
-      }
-
-
-*  Important:
-    - A TypeScript class can have only ONE constructor.
-    - Constructor overloading is NOT directly supported.
+    - Constructor overloading is NOT directly supported 
+        because overloading not exist in JS ; another constructor would overwrite the previous one.
+   
     - The constructor is called automatically when using `new`.
     * A constructor does NOT have a return type.
     * The constructor name must always be `constructor`.
@@ -1496,7 +1453,7 @@ class Student5 {
 }
 
 
-let student5 = new Student5( "Asmaa",20);
+let student5 = new Student5("Asmaa", 20);
 
 
 //? Setter is called automatically
@@ -1530,4 +1487,35 @@ console.log(student5.age);  // 21
 * Setter:
 *     student5.name = "AAAAAAAA"
 */
+
+
+//! OR
+
+
+class Student6 {
+
+    public constructor(
+        private _name: string,
+        private _age: number
+    ) { }
+
+    //? Setter
+    public setName(newName: string) {
+        this._name = newName;
+    }
+
+    //? Getter
+    public getName(): string {
+        return this._name;
+    }
+}
+
+
+let student6 = new Student6("Asmaa", 20);
+
+student6.setName('aaaaaa');
+
+console.log(student6.getName()); // aaaaaa
+
+
 

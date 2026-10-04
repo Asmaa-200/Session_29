@@ -199,7 +199,7 @@ What's added by TypeScript compared to JavaScript?
    TypeScript uses JavaScript's existing data types and adds
    additional types and type-related features.
 
-*  Primitive Data Types:
+*  Primitive Data Types (Value Typed):
      number
      string
      boolean
@@ -208,7 +208,7 @@ What's added by TypeScript compared to JavaScript?
      bigint      -> very large integers
      symbol      -> unique values
 
-*  Non-Primitive / Object Types:
+*  Non-Primitive / Object Types (reference Typed):
      object
      array
      function
@@ -225,7 +225,7 @@ What's added by TypeScript compared to JavaScript?
     void           -> Represents functions that do not return a value
     any            -> Represents any type (can hold any value)
     unknown        -> Similar to any, but safer because it must be checked before use
-    Array<number>  -> A collection of values of the same type (number in this case)
+    Array<datatype>  -> A collection of values of the same type
     tuple          -> A fixed-length array with specific types for each position
     union          -> A type that allows a variable to hold multiple types
     intersection  ->   combines multiple types into one
@@ -324,6 +324,7 @@ let obj2 = {
 // };
 //? -------------------- Array Type -------------------- 
 // An array stores multiple values.
+// let arr1: [] = [10, 20, 30, 40];  Error
 let arr1 = [10, 20, 30, 40];
 //?  Generic Array Syntax  
 // `number[]` and `Array<number>` mean the same thing.
@@ -336,6 +337,8 @@ let fun1 = function () { };
 let add = function (a, b) {
     return a + b;
 };
+function fun2() { }
+;
 //! __________________________________________________________________________________________________
 //? -------------------- Void Type -------------------- 
 // void is mainly used as the return type of a function
@@ -392,9 +395,9 @@ if (typeof y === "string") {
     -> Type must be checked before using the value.
     -> Safer than any.
 ------------------------------------------------- */
-//? -------------------- Tuple Type -------------------- 
+//? -------------------- Tuple Type --------------------
 // A tuple has a fixed structure.
-// Each position can have a specific type.
+// A fixed-length array with specific types for each position
 let user = ["Asmaa", 21];
 //* ---------- Array vs Tuple ---------- 
 //* Array: A collection of values.
@@ -419,6 +422,29 @@ answer = "B"; // Valid
 // "D" is not one of the allowed values.
 // @ts-expect-error
 answer = "D";
+let newUser = {
+    id: 5,
+    firstName: "AAAA",
+    lastName: "BBBB",
+    email: "AAAA@gmail.com",
+    password: "123456789",
+    isAdmin: true,
+    getFullName: (firstName, lastName) => `${firstName} ${lastName}`
+};
+//! Check if the optional function exists because it may not be present in the user object,
+//! which means its value will be `undefined` and calling it directly will cause an error.
+if (newUser.getFullName !== undefined) {
+    newUser.getFullName('', '');
+}
+//? ---------- Readonly Property ----------
+//* readonly prevents a property from being changed
+//* after the object has been created.
+// @ts-expect-error
+newUser.id = 10;
+//? ---------- Optional Property ----------
+//* `?` makes a property optional.
+//* The property does not have to be provided.
+console.log(newUser);
 let employee = {
     name: "John",
     age: 25,
@@ -434,33 +460,6 @@ moveDirection("left");
 // "forward" is not an allowed value.
 // @ts-expect-error
 moveDirection("forward");
-let newUser = {
-    id: 5,
-    firstName: "AAAA",
-    lastName: "BBBB",
-    email: "AAAA@gmail.com",
-    password: "123456789",
-    isAdmin: true,
-    getFullName: (firstName, lastName) => `${firstName} ${lastName}`
-};
-//? ---------- Readonly Property ----------
-//* readonly prevents a property from being changed
-//* after the object has been created.
-// @ts-expect-error
-newUser.id = 10;
-//? ---------- Optional Property ----------
-//* `?` makes a property optional.
-//* The property does not have to be provided.
-console.log(newUser);
-{
-    let user1 = {
-        name: "John"
-    };
-    let user2 = {
-        name: "Ali",
-        age: 25
-    };
-}
 let newHuman = {
     name: "asmaa",
     age: 21,
@@ -528,7 +527,7 @@ let newHuman = {
 // It does NOT change the actual value or runtime type.
 {
     let userName = "asmaa";
-    //* ---------- Angle Bracket Syntax ----------
+    //* ---------- Angle Bracket Syntax / Generic ----------
     // Not recommended when using JSX.
     // JSX stands for: JavaScript XML  >> JavaScript + XML-like syntax
     let a = userName;
@@ -567,7 +566,7 @@ function greet(name = "Guest") {
     console.log(`Hello ${name}`);
 }
 greet();
-greet("John");
+greet("Asmaa");
 //? -------------------- Optional Parameter -------------------- 
 // `?` after the parameter name makes the parameter optional.
 //
@@ -576,8 +575,8 @@ greet("John");
 function greet2(name, age) {
     console.log(name, age);
 }
-greet2("John");
-greet2("John", 25);
+greet2("Asmaa");
+greet2("Asmaa", 21);
 // Example:
 let students = [];
 function setNewStudent(studentName, studentEmail, studentPhone) {
@@ -588,8 +587,8 @@ function setNewStudent(studentName, studentEmail, studentPhone) {
     };
     students.push(newStudent);
 }
-setNewStudent("John Doe", "john@gmail.com", "01152626821");
-setNewStudent("Jane Doe", "jane@gmail.com");
+setNewStudent("Asmaa", "As@gmail.com", "011111111111");
+setNewStudent("Asmaa", "As@gmail.com");
 // ! ____________________________________________________________________________________
 //? -------------------- Enum --------------------
 // An enum defines a set of named constants.
@@ -714,6 +713,8 @@ Main Topics:
 // !  2. Class & Object
 /*
 
+* class name preferred capitalize
+
 *  Class:
     - A blueprint / template for creating objects.
     - Defines the properties and methods that objects can have.
@@ -787,28 +788,9 @@ student_2.study(); // Aya studying.
 
 *  Important:
     - A TypeScript class can have only ONE constructor.
-    - Constructor overloading is NOT directly supported.
-    - The constructor is called automatically when using `new `.
-
-*/
-// !    3. Constructor
-/*
-
-*  What is a Constructor?
-    - A constructor is a special method inside a class.
-    - It is automatically called when an object is created.
-    - It is mainly used to initialize object properties.
-
-*  Syntax:
-
-      constructor(parameters) {
-          initialization
-      }
-
-
-*  Important:
-    - A TypeScript class can have only ONE constructor.
-    - Constructor overloading is NOT directly supported.
+    - Constructor overloading is NOT directly supported
+        because overloading not exist in JS ; another constructor would overwrite the previous one.
+   
     - The constructor is called automatically when using `new`.
     * A constructor does NOT have a return type.
     * The constructor name must always be `constructor`.
@@ -1143,4 +1125,24 @@ console.log(student5.age); // 21
 * Setter:
 *     student5.name = "AAAAAAAA"
 */
+//! OR
+class Student6 {
+    _name;
+    _age;
+    constructor(_name, _age) {
+        this._name = _name;
+        this._age = _age;
+    }
+    //? Setter
+    setName(newName) {
+        this._name = newName;
+    }
+    //? Getter
+    getName() {
+        return this._name;
+    }
+}
+let student6 = new Student6("Asmaa", 20);
+student6.setName('aaaaaa');
+console.log(student6.getName()); // aaaaaa
 //# sourceMappingURL=index.js.map

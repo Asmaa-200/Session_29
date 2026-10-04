@@ -17,6 +17,7 @@ declare let arr1: number[];
 declare let arr2: Array<number>;
 declare let fun1: () => void;
 declare let add: (a: number, b: number) => number;
+declare function fun2(): void;
 declare function logMessage(): void;
 declare function throwError(message: string): never;
 declare let x: any;
@@ -26,6 +27,16 @@ declare let names: string[];
 declare let person: [string, number];
 declare let n: string | number;
 declare let answer: "A" | "B" | "C";
+type User = {
+    readonly id: number;
+    firstName: string;
+    lastName: string;
+    email?: string;
+    password: string;
+    isAdmin: boolean;
+    getFullName?: (firstName: string, lastName: string) => string;
+};
+declare let newUser: User;
 type Person = {
     name: string;
     age: number;
@@ -38,16 +49,6 @@ type PersonEmployee = Person & Employee;
 declare let employee: PersonEmployee;
 type Direction = "up" | "down" | "left" | "right";
 declare function moveDirection(direction: Direction): void;
-type User = {
-    readonly id: number;
-    firstName: string;
-    lastName: string;
-    email?: string;
-    password: string;
-    isAdmin: boolean;
-    getFullName: (firstName: string, lastName: string) => string;
-};
-declare let newUser: User;
 interface Human {
     name: string;
     age: number;
@@ -58,10 +59,59 @@ declare function greet(name?: string): void;
 declare function greet2(name: string, age?: number): void;
 declare let students: object[];
 declare function setNewStudent(studentName: string, studentEmail: string, studentPhone?: string): void;
-declare namespace DynamicTyping {
+declare class Student {
+    name: string;
+    age: number;
+    gender: string;
+    study(): void;
+    learn(): void;
+    play(): void;
 }
-declare namespace InferredTypes {
+declare let student_1: Student;
+declare let student_2: Student;
+declare class Person1 {
+    name: string;
+    age: number;
+    constructor(name: string, age: number);
 }
-declare namespace ExplicitTypes {
+declare let person1: Person1;
+declare class Person2 {
+    name: string;
+    private age;
+    constructor(name: string, age: number);
 }
+declare class Student3 {
+    name: string;
+    age: number;
+    gender: string;
+    constructor(name: string, age: number, gender: string);
+}
+declare let student3: Student3;
+declare class StudentEncapsulation {
+    private name;
+    private age;
+    setName(name: string): void;
+    getName(): string;
+    setAge(age: number): void;
+    getAge(): number;
+}
+declare let student4: StudentEncapsulation;
+declare class Student5 {
+    private _name;
+    private _age;
+    constructor(_name: string, _age: number);
+    set name(newName: string);
+    get name(): string;
+    set age(newAge: number);
+    get age(): number;
+}
+declare let student5: Student5;
+declare class Student6 {
+    private _name;
+    private _age;
+    constructor(_name: string, _age: number);
+    setName(newName: string): void;
+    getName(): string;
+}
+declare let student6: Student6;
 //# sourceMappingURL=index.d.ts.map
