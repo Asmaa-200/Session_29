@@ -214,20 +214,42 @@ What's added by TypeScript compared to JavaScript?
      function
 
 ? ------------------------------------------
-
+*  New in TypeScript?
+    - Type declaration (strongly typed vs. loosely typed)
+    - Type assertion (casting)
+    - Optional parameters
+ 
+ 
 *  TypeScript Additional / Special Types
 
-    void          ->   usually used for functions that return no value
-    never         ->   represents a value that never occurs
-    any           ->   disables type checking for a value
-    unknown       ->   can hold any value, but must be checked before use
-    tuple         ->   fixed structure with a specific type for each position
-    union         ->   allows a value to have multiple possible types
+    void           -> Represents functions that do not return a value
+    any            -> Represents any type (can hold any value)
+    unknown        -> Similar to any, but safer because it must be checked before use
+    Array<number>  -> A collection of values of the same type (number in this case)
+    tuple          -> A fixed-length array with specific types for each position
+    union          -> A type that allows a variable to hold multiple types
     intersection  ->   combines multiple types into one
-    alias         ->   custom reusable name for a type
-    interface     ->   describes the structure of an object
-    literal       ->   allows only specific values
+    alias          -> A custom name for a type, making it reusable
+    interface      -> Defines the structure of an object, ensuring it has specific properties and types
+    literal        -> Allows only specific values
 
+
+
+-------------------------------------------------------------------------
+
+* Type Declaration: explicitly specifies the data type of a variable.
+
+* Strongly typed: a variable keeps its declared type and cannot hold another type.
+
+        Example: TypeScript
+            let x: number = 20;
+            x = "asmaa";  //Error
+
+* Loosely typed: a variable can hold values of different types.
+        Example: JavaScript
+            let x = 20;
+            x = "asmaa";
+            
 */
 //! _________________________________________________ 1.1 Primitive Data Types _________________________________________________
 //? -------------------- Number -------------------- 
@@ -595,114 +617,6 @@ setNewStudent("Jane Doe", "jane@gmail.com");
     let direction2 = Direction2.Down;
     console.log(direction2, 'enum2');
 }
-/* =============================================================================
-  2. TYPE DECLARATION
-  -----------------------------------------------------------------------------
-  JavaScript:
-    Dynamically Typed
-
-  TypeScript:
-    Statically Typed
-============================================================================= */
-var DynamicTyping;
-(function (DynamicTyping) {
-    /* ---------- Dynamic Typing ---------- */
-    // In JavaScript, a variable can hold different types of values
-    // during runtime.
-    let value = 5;
-    // Later, the same variable can hold a string.
-    //   value = "Hello";
-})(DynamicTyping || (DynamicTyping = {}));
-/* =============================================================================
-  2.1 TYPE INFERENCE
-============================================================================= */
-var InferredTypes;
-(function (InferredTypes) {
-    /* ---------- Type Inference ---------- */
-    // When no type is written,
-    // TypeScript can infer the type from the value.
-    let a = 5;
-    let b = "String";
-    let c = true;
-})(InferredTypes || (InferredTypes = {}));
-/* =============================================================================
-  2.2 EXPLICIT TYPE DECLARATION
-============================================================================= */
-var ExplicitTypes;
-(function (ExplicitTypes) {
-    /* ---------- Explicit Type ---------- */
-    // We explicitly specify the type of the variable.
-    let a = 5;
-    let b = "String";
-    let c = true;
-    let d = null;
-    let e = undefined;
-    let f = {
-        firstName: "John",
-        lastName: "Doe"
-    };
-    let g = [10, 20, 30, 40];
-    let h = [10, 20, 30, 40];
-})(ExplicitTypes || (ExplicitTypes = {}));
-/* =============================================================================
-  3. TYPE ASSERTION / CASTING
-============================================================================= */
-/* -----------------------------------------------------------------------------
-  Type Assertion:
-    - Does not convert the value.
-    - Does not change the runtime type.
-    - Only tells TypeScript how to treat the value.
-    - `as` syntax is commonly preferred.
------------------------------------------------------------------------------ */
-/* =============================================================================
-  4. OPTIONAL PARAMETERS
-============================================================================= */
-/* -----------------------------------------------------------------------------
-  `?` after a parameter name makes it optional.
-
-  Example:
-    function test(name: string, age?: number)
-
-  The function can be called with:
-    test("John");
-    test("John", 25);
-
-  If age is not provided:
-    age === undefined
------------------------------------------------------------------------------ */
-/* =============================================================================
-  IMPORTANT QUICK NOTES
-============================================================================= */
-/*
-Primitive:
-  string
-  number
-  boolean
-  null
-  undefined
-  bigint
-  symbol
-
-Non-Primitive / Object:
-  object
-  array
-  function
-
-Special TypeScript Types:
-  void
-  never
-  any
-  unknown
-
-Advanced Types:
-  tuple
-  union
-  intersection
-  literal
-  type alias
-  interface
-  enum
-*/
 /* -----------------------------------------------------------------------------
   IMPORTANT DIFFERENCES
 ----------------------------------------------------------------------------- */
@@ -736,11 +650,497 @@ type assertion:
 type conversion:
   Actually changes the value's type at runtime.
 ----------------------------------------------------------------------------- */
-/* =============================================================================
-  5. GENERICS
-  -----------------------------------------------------------------------------
-  Generics allow us to write reusable code
-  that works with different types while keeping type safety.
-============================================================================= */
-// Will be covered in detail later.
+// ! _________________________________________________________________________________________________________________________________________
+// !                                                    Object-Oriented Programming (OOP)
+// ! _________________________________________________________________________________________________________________________________________
+/*
+
+*  OOP is a programming paradigm based on objects.
+
+Main Topics:
+1.  OOP Introduction
+2.  Class
+3.  Object
+4.  Constructor
+5.  Destructor
+6.  Access Modifier / Access Specifier
+7.  Parameter Properties
+8.  Encapsulation
+9.  Getter & Setter
+10. Static Method & Static Property
+11. Inheritance
+12. Multilevel Inheritance
+13. Multiple Inheritance
+14. Polymorphism
+15. Interface
+16. Abstract Class
+
+*/
+//!   1. OOP Introduction
+/*
+
+*  What is Procedural Programming?
+    - A programming paradigm based mainly on functions/procedures.
+    - The program is divided into functions, where each function performs a specific task.
+    - It mainly focuses on How to do something.
+
+  Example:
+    C mostly follows the procedural programming paradigm.
+
+
+*  What is OOP?
+    - OOP stands for Object-Oriented Programming.
+    - It is based on objects.
+    - Objects combine:
+        1. Data       -> Properties
+        2. Behavior   -> Methods
+
+*    - OOP focuses more on WHAT an object represents.
+
+  Example:
+    Student
+      Properties -> name, age, GPA
+      Methods    -> study(), play()
+
+
+*  Why use OOP?
+    - Organizes large projects.
+    - Makes code reusable.
+    - Reduces code duplication (DRY).
+    - Makes code easier to maintain and modify.
+    - Makes code easier to debug.
+    - Models real-world entities using objects and classes.
+*/
+// !  2. Class & Object
+/*
+
+*  Class:
+    - A blueprint / template for creating objects.
+    - Defines the properties and methods that objects can have.
+
+*  Object:
+    - An instance of a class.
+    - It is created using the `new ` keyword.
+
+
+*  Class  = Blueprint
+*  Object = Actual thing created from the blueprint
+
+
+  Example:
+ 
+  class : student
+  objects:
+          stud1,stud2
+
+*    Both objects have the same structure,
+*    but each object has its own data.
+
+*/
+class Student {
+    //* Properties
+    name = "";
+    age = NaN;
+    gender = "";
+    //* Method
+    study() {
+        console.log(this.name + " studying.");
+    }
+    learn() {
+        console.log(this.name + " learning");
+    }
+    play() {
+        console.log(this.name + " playing.");
+    }
+}
+//? Creating objects from the Student class
+let student_1 = new Student();
+student_1.name = "Asmaa";
+student_1.age = 21;
+student_1.gender = "Female";
+let student_2 = new Student();
+student_2.name = "Aya";
+student_2.age = 20;
+student_2.gender = "Female";
+//? Each object has its own data
+console.log(student_1.name); // Asmaa
+console.log(student_2.name); // Aya 
+//? Both objects can use the same methods
+student_1.study(); // Asmaa studying.
+student_2.study(); // Aya studying.
+// * NOTE:
+// *      `new Student()` creates a new object (instance) from the Student class.
+// !    3. Constructor
+/*
+
+*  What is a Constructor?
+    - A constructor is a special method inside a class.
+    - It is automatically called when an object is created.
+    - It is mainly used to initialize object properties.
+
+*  Syntax:
+
+      constructor(parameters) {
+          initialization
+      }
+
+
+*  Important:
+    - A TypeScript class can have only ONE constructor.
+    - Constructor overloading is NOT directly supported.
+    - The constructor is called automatically when using `new `.
+
+*/
+// !    3. Constructor
+/*
+
+*  What is a Constructor?
+    - A constructor is a special method inside a class.
+    - It is automatically called when an object is created.
+    - It is mainly used to initialize object properties.
+
+*  Syntax:
+
+      constructor(parameters) {
+          initialization
+      }
+
+
+*  Important:
+    - A TypeScript class can have only ONE constructor.
+    - Constructor overloading is NOT directly supported.
+    - The constructor is called automatically when using `new`.
+    * A constructor does NOT have a return type.
+    * The constructor name must always be `constructor`.
+    - The constructor can receive parameters.
+    - Constructor parameters can be used to initialize class properties.
+
+    * If no constructor is defined, TypeScript provides a default constructor.
+    
+    - A constructor can have access modifiers such as `public`, `private`,
+      and `protected` when used with parameter properties.
+
+ */
+// *  Example:
+class Person1 {
+    name;
+    age;
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+//     - `new Person(...)` creates a new object.
+//     - The constructor runs automatically.
+//     - The passed values are assigned to the object's properties.
+let person1 = new Person1("Asmaa", 20);
+/*
+NOTE:
+
+* `this` refers to the current object.
+
+ Example:
+
+     this.name = name;
+
+     this.name
+*         -> property of the current object
+
+     name
+*         -> parameter received by the constructor
+*/
+//? ------------------------------------------------------------
+//*    Constructor Parameter Properties:
+//        - TypeScript allows parameters to be automatically converted into
+//           class properties using `public`, `private`, `protected`, or `readonly`.
+class Person2 {
+    name;
+    age;
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+// - This is a shorter way of declaring and initializing properties.
+// !    4. Destructor
+/*
+
+*  A destructor is used in some languages to perform cleanup
+*  when an object is destroyed.
+
+*  TypeScript / JavaScript:
+*    - Does NOT support destructors like C++.
+?    - JavaScript uses Garbage Collection to automatically
+?      clean objects that are no longer reachable.
+
+*  Therefore:
+*      Destructor -> NOT supported in TypeScript
+*/
+// !  5. Access Modifiers / Access Specifiers
+/*
+
+*  Access modifiers control where class members
+*  (properties and methods) can be accessed.
+
+*  TypeScript has three main access modifiers:
+
+    - public
+    - private
+    - protected
+
+*  public:
+*    - Can be accessed from anywhere.
+*    - It is the DEFAULT access modifier in TypeScript.
+
+*  private:
+*    - Can only be accessed inside the same class.
+
+*  protected:
+*    - Can be accessed inside the class and its child classes (classes that extend it).
+*    - Cannot be accessed directly from outside the class.
+
+*/
+// !   6. Parameter Properties
+/*
+
+*  Parameter Properties are a TypeScript shorthand.
+
+*  Instead of:
+
+    class Student {
+
+        public name: string;
+        public age: number;
+
+        constructor(name: string, age: number) {
+            this.name = name;
+            this.age = age;
+        }
+    }
+
+
+*  We can write:
+
+    constructor(
+        public name: string,
+        public age: number
+    ) {}
+
+
+*  TypeScript automatically:
+*    1. Creates the properties.
+*    2. Assigns the constructor parameters to them.
+
+
+*  Supported modifiers:
+    - public
+    - private
+    - protected
+    - readonly
+
+*/
+// * Example
+class Student3 {
+    name;
+    age;
+    gender;
+    constructor(name, age, gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+}
+let student3 = new Student3("Asmaa", 21, "Female");
+console.log(student3.name);
+console.log(student3.age);
+console.log(student3.gender);
+/*
+* The previous code is equivalent to:
+
+class Student {
+    public name: string;
+    public age: number;
+
+    constructor(name: string, age: number) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+*/
+// !   7. Encapsulation
+/*
+
+?    - Encapsulation means hiding the internal details of an
+?      object and controlling how its data is accessed.
+
+?    - Instead of allowing direct access to sensitive data,
+?      we control access through methods or getters/setters.
+
+*  In TypeScript, encapsulation is commonly achieved using:
+    - private
+    - protected
+    - getter
+    - setter
+
+*  Example:
+    private age
+
+*  The outside code cannot directly change age.
+*  We can instead use a method that validates the value.
+
+*/
+class StudentEncapsulation {
+    name = "";
+    age = NaN;
+    //? Set the student's name
+    setName(name) {
+        this.name = name;
+    }
+    //? Get the student's name
+    getName() {
+        return this.name;
+    }
+    //? Set the student's age with validation
+    setAge(age) {
+        if (age > 0) {
+            this.age = age;
+        }
+        else {
+            console.error("Age must be a positive number.");
+        }
+    }
+    //? Get the student's age
+    getAge() {
+        return this.age;
+    }
+}
+let student4 = new StudentEncapsulation();
+student4.setName("Asmaa");
+student4.setAge(20);
+console.log(student4.getName()); // Asmaa
+console.log(student4.getAge()); // 20
+/*
+WHY is this useful?
+
+* Without encapsulation:
+
+    student.age = -100;
+
+    Invalid data can be assigned.
+
+* With encapsulation:
+
+    student.setAge(-100);
+
+    The class can validate the value first.
+
+
+* NOTE:
+    - TypeScript checks `private` and `protected` during compilation.
+    - These restrictions are mainly for TypeScript's type checking.
+    - JavaScript does not enforce them at runtime.
+
+    - JavaScript `#private` fields cannot be accessed from outside the class.
+
+
+    class Person {
+        #name = "Asmaa";
+        age = 20;
+    
+        showName() {
+            console.log(this.#name);
+        }
+    }
+    
+    const person = new Person();
+    person.showName(); // Asmaa
+    console.log(person.#name); //Error
+
+    * `const` prevents reassigning the variable, but the object itself can still be modified.
+   
+        person = new Person(); //Error
+        person.age = 20; // possible
+*/
+// !   8. Getter & Setter
+/*
+
+*  TypeScript provides `get` and `set` keywords.
+*
+*  Getter:
+*    - Used to READ a value.
+*
+*  Setter:
+*    - Used to MODIFY a value.
+*
+*
+*  Syntax:
+*
+*      get propertyName(): type {
+*          return value;
+*      }
+*
+*      set propertyName(value: type) {
+*          // update value
+*      }
+*
+*
+*  Main advantage:
+*    - We can access the value like a normal property.
+*    - We can still control the reading/writing process.
+*/
+class Student5 {
+    _name;
+    _age;
+    constructor(_name, _age) {
+        this._name = _name;
+        this._age = _age;
+    }
+    //? Setter
+    set name(newName) {
+        this._name = newName;
+    }
+    //? Getter
+    get name() {
+        return this._name;
+    }
+    //? Setter with validation
+    set age(newAge) {
+        if (newAge > 0) {
+            this._age = newAge;
+        }
+    }
+    //? Getter
+    get age() {
+        return this._age;
+    }
+}
+let student5 = new Student5("Asmaa", 20);
+//? Setter is called automatically
+student5.name = "aaaaaa";
+student5.age = 21;
+//? Getter is called automatically
+console.log(student5.name); // aaaaaa
+console.log(student5.age); // 21
+/*
+* IMPORTANT:
+*
+* We do NOT write:
+*
+*     student5.name()
+*
+* Because `name` is a getter/setter property.
+*
+* We write:
+*
+*     student5.name
+*     student5.name = "AAAAAAAA"
+*
+*
+* Getter:
+*     student5.name
+*
+* Setter:
+*     student5.name = "AAAAAAAA"
+*/
 //# sourceMappingURL=index.js.map
